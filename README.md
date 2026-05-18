@@ -1,5 +1,20 @@
 # Weather-pipeline-data
 
+### Progress Update: Phase 1 — Data Sourcing, Serverless Compute, and Object Storage
+
+Built the foundational ingestion layer of the data pipeline, focusing on automated API data retrieval, environment variable security, and scalable cloud storage configuration.
+
+#### Key Milestones Achieved
+
+* **API Integration:** Established connectivity with the OpenWeather Map API to source real-time regional weather metrics, including temperature, humidity, wind data, and localized descriptions.
+* **Serverless Compute Infrastructure:** Developed and deployed an AWS Lambda function running a Python runtime environment. This serverless script handles the programmatic HTTP requests to the external API, processes the payload response, and formats the output into structured JSON files.
+* **Secure Credential Management:** Implemented AWS Lambda Environment Variables to securely store API authentication keys, preventing hardcoded credentials within the source code repo.
+* **Data Lake Landing Zone:** Provisioned an Amazon S3 bucket (`openweather-pipeline-data-hanan`) with a dedicated directory structure (`raw_weather_data/`) to act as the primary, high-durability landing zone for the incoming raw JSON objects.
+* **Automated Scheduling:** Configured an Amazon EventBridge Rule (CloudWatch Event) acting as a cron-job trigger to systematically invoke the Lambda function at fixed intervals, achieving hands-free data collection.
+
+#### Architecture Framework Completed in Phase 1
+* OpenWeather API -> HTTP Request -> AWS Lambda (Python Compute) -> Secure Parameter Store -> Amazon S3 Object Storage (Raw JSON).
+
 ### Progress Update: May 18, 2026 — Phase 2: Snowflake Data Warehouse Integration
 
 Established the secure data highway and continuous ingestion pipeline connecting Amazon S3 to Snowflake, focusing on cross-cloud security and semi-structured data transformation.
