@@ -28,3 +28,30 @@ Established the secure data highway and continuous ingestion pipeline connecting
 
 #### Architecture Framework Completed Today
 * AWS Lambda -> Amazon S3 (Raw JSON Object) -> Snowflake Storage Integration -> Snowflake External Stage -> Snowpipe Ingestion Compiler -> Structured Target Table.
+
+
+## 🚀 Today's Sprint: Ingestion Security, Audit Logging & Warehouse Ingestion
+
+Today, the pipeline architecture was upgraded from a basic script into a secure, production-ready backend system. The focus was on implementing configuration security, an asynchronous audit logging layer, and end-to-end telemetry verification.
+
+### What Was Built & Implemented Today:
+
+#### 1. Configuration Security (Production Standard)
+* Abstracted all sensitive API credentials and geographic coordinates (`LAT`, `LON`, `API_KEY`) out of the codebase.
+* Migrated the ingestion engine to interface with secrets exclusively via secure **AWS Lambda Environment Variables** using Python’s `os.environ` module, preventing private keys from being exposed in source control.
+
+#### 2. Live NoSQL Audit Ledger (DynamoDB Integration)
+* Provisioned an AWS DynamoDB tracking table (`weather_pipeline_log`) using a combination of `execution_id` (UUIDv4 Partition Key) and a `timestamp` (Sort Key).
+* Enabled **DynamoDB Streams (New Image)** to capture real-time change data capture (CDC) logs for downstream alerting.
+* Upgraded the Python Lambda script using `boto3` to dynamically handle database states:
+  * Drops an initial heartbeat record flagged as `IN_PROGRESS` before fetching API data.
+  * Electronically updates the state to `SUCCESS` upon successful S3 archival.
+  * Captures runtime execution exceptions and logs them as `FAILED` with explicit error traces if any breakages occur.
+
+#### 3. IAM Security & Permission Orchestration
+* Resolved real-time cloud security barriers (`AccessDeniedException`).
+* Configured identity-based execution policies on the Lambda IAM Role, explicitly allowing granular NoSQL interactions (`dynamodb:PutItem`, `dynamodb:UpdateItem`).
+
+#### 4. Warehouse Verification & Data Cleaning Layer
+* Verified end-to-end data telemetry across the entire AWS-to-Snowflake bridge, confirming live records automatically load via Snowpipe notifications.
+* Engineered an analytical data-cleaning query inside Snowflake using window functions (`ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)`) to automatically identify, rank, and strip out duplicate ingestion entries, serving a clean data layer for reporting.
