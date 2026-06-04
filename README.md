@@ -55,3 +55,24 @@ Today, the pipeline architecture was upgraded from a basic script into a secure,
 #### 4. Warehouse Verification & Data Cleaning Layer
 * Verified end-to-end data telemetry across the entire AWS-to-Snowflake bridge, confirming live records automatically load via Snowpipe notifications.
 * Engineered an analytical data-cleaning query inside Snowflake using window functions (`ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)`) to automatically identify, rank, and strip out duplicate ingestion entries, serving a clean data layer for reporting.
+
+---
+
+## Project Status and Validation Milestone
+
+The complete end-to-end event-driven architecture was fully validated, live-tested, and deployed on June 4, 2026. The pipeline is 100% operational, self-monitoring, and verified across all integrated cloud systems.
+
+### Ingestion and Storage Layer Validation
+* **Compute Triggering:** Manual and cron-scheduled Amazon EventBridge execution vectors were verified for the primary ingestion Lambda function.
+* **Storage Ingestion:** Successfully initiated communication with the OpenWeather API, dropping structured JSON payloads into the target Amazon S3 object landing zone with clean timestamp tracking.
+* **Transaction Ledger Auditing:** Confirmed transactional writes to the Amazon DynamoDB ledger table (`weather_pipeline_log`). Each execution successfully records unique UUID execution IDs, accurate epoch timestamps, and system operational states (`SUCCESS` or `FAILED`).
+
+### Automated Warehousing and Snowpipe Validation
+* **Event Notification Bridge:** S3 event routing to the Snowpipe SQS queue was verified. Ingestion occurs natively within seconds of file arrival without manual intervention.
+* **Analytical Ingestion Verification:** Validated structural data landing inside the Snowflake environment. Running the primary tracking queries inside `WEATHER_DB.PUBLIC.WEATHER_DATA_FINAL` confirmed successful execution of the schema-on-read pipeline, converting the semi-structured JSON `VARIANT` payloads into relational datasets:
+
+```sql
+SELECT * FROM WEATHER_DB.PUBLIC.WEATHER_DATA_FINAL 
+ORDER BY recorded_at DESC 
+LIMIT 5;
+
