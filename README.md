@@ -30,7 +30,7 @@ Established the secure data highway and continuous ingestion pipeline connecting
 * AWS Lambda -> Amazon S3 (Raw JSON Object) -> Snowflake Storage Integration -> Snowflake External Stage -> Snowpipe Ingestion Compiler -> Structured Target Table.
 
 
-## 🚀 Today's Sprint: Ingestion Security, Audit Logging & Warehouse Ingestion
+##  Today's Sprint: Ingestion Security, Audit Logging & Warehouse Ingestion
 
 Today, the pipeline architecture was upgraded from a basic script into a secure, production-ready backend system. The focus was on implementing configuration security, an asynchronous audit logging layer, and end-to-end telemetry verification.
 
