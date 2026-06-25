@@ -1,5 +1,22 @@
 # Real-Time Event-Driven Weather Data Pipeline
 
+
+
+
+
+
+
+
+
+
+<img width="972" height="693" alt="IMG-20260514-WA0027" src="https://github.com/user-attachments/assets/9f655b87-fcd8-4bac-86f5-3af74dddd4ee" />
+
+
+
+
+
+
+
 An enterprise-grade, event-driven data engineering pipeline designed to automate the ingestion, transaction auditing, and relational analytics of live meteorological data using AWS Serverless Infrastructure and the Snowflake Cloud Data Platform. 
 
 The architecture features programmatic data ingestion, decoupled transaction logging, zero-copy automated data warehouse loading via Snowpipe, active schema-on-read transformation, and an independent real-time asynchronous error monitoring stream.
